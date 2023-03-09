@@ -1,0 +1,66 @@
+<h1>Create a new post</h1>
+<div class="row">
+  <form #postsForm="ngForm" (ngSubmit)="createPost()" novalidate>
+    <div class="form-group row mb-4">
+      <label for="title" class="col-sm-2 col-form-label">Title:</label>
+      <div class="col-sm-10">
+        <input
+          type="text"
+          id="title"
+          class="form-control"
+          #title="ngModel"
+          [(ngModel)]="newPost.title"
+          name="title"
+          placeholder="Title"
+          pattern="^X.*"
+          required
+        />
+        <span *ngIf="title.invalid">
+        <span
+          class="text-danger"
+          *ngIf="
+            (title.touched || postsForm.submitted) &&
+            title['errors']['required']
+          "
+        >
+          Title is required
+        </span>
+        <span
+          class="text-danger"
+          *ngIf="title['errors']['pattern']"
+        >
+          Title should start with X
+        </span>
+        </span>
+      </div>
+    </div>
+    <div class="form-group row mb-4">
+      <label for="body" class="col-sm-2 col-form-label">Body:</label>
+      <div class="col-sm-10">
+        <textarea
+          id="body"
+          class="form-control"
+          [(ngModel)]="newPost.body"
+          #body="ngModel"
+          name="body"
+          placeholder="Body"
+          required
+        ></textarea>
+        <span *ngIf="body.invalid">
+        <span
+          class="text-danger"
+          *ngIf="
+            (body.touched || postsForm.submitted) &&
+            body['errors']['required']
+          "
+        >
+          Body is required
+        </span>
+      </span>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="postsForm.invalid">
+      Create post
+    </button>
+  </form>
+</div>

@@ -1,0 +1,57 @@
+<h1>Posts</h1>
+
+<input
+  type="search"
+  placeholder="Search for title"
+  [(ngModel)]="searchText"
+  (input)="onSearch()"
+  class="form-control"
+/>
+
+<div class="row my-2">
+<div *ngIf="searchText; else elseBlock">
+  <div *ngIf="(isSearchLoading$ | async); else elseSearchLoadingBlock">
+    <p>Searching...</p>
+  </div>
+  <ng-template #elseSearchLoadingBlock>
+    <div *ngIf="(searchResults$ | async)?.length === 0">
+      <p>No results found.</p>
+    </div>
+
+    <div *ngIf="(searchResults$ | async)?.length > 0" class="col-md-12">
+      <div class="card flex-md-row mb-4 box-shadow" *ngFor="let post of searchResults$ | async">
+        <div class="card-body d-flex flex-column align-items-start">
+          
+          <h3 class="">
+            <a class="text-dark" routerLink="/posts">{{ post.title }}</a>
+          </h3>
+          
+          <p class="card-text">{{ post.body }}</p>
+          <a routerLink="/posts">Continue reading</a>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<ng-template #elseBlock>
+  <div *ngIf="(isCreatePostsLoading$ | async);">
+    <p>Creating post...</p>
+  </div>
+  
+  
+    <div class="col-md-12" *ngFor="let post of posts$ | async">
+      <div class="card flex-md-row mb-4 box-shadow">
+        <div class="card-body d-flex flex-column align-items-start">
+          
+          <h3 class="">
+            <a class="text-dark" routerLink="/posts">{{ post.title }}</a>
+          </h3>
+          
+          <p class="card-text">{{ post.body }}</p>
+          <a routerLink="/posts">Continue reading</a>
+        </div>
+      </div>
+    </div>
+    
+  </ng-template>
+</div>
